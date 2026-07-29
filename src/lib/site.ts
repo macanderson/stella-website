@@ -13,7 +13,7 @@ export const SITE = {
   cargoInstall:
     "cargo install --locked --git https://github.com/macanderson/stella stella-cli",
   repo: "https://github.com/macanderson/stella",
-  docs: "https://stella.oxagen.sh",
+  docs: "https://stella-docs.oxagen.sh",
   cgp: "https://github.com/macanderson/context-graph-protocol",
   license: "AGPL-3.0-only",
 } as const;
