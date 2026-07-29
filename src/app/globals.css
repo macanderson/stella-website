@@ -1,0 +1,337 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Stella brand tokens — the `›stella▮` prompt identity.
+   Monochrome ink/paper + vermilion block cursor.
+   This site commits to the deep-space dark theme.
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  --color-ink: #f5f6f7;
+  --color-sub: #8b9199;
+  --color-chevron: #45494f;
+  --color-cursor: #ff4b2a;
+  --color-ember: #ff8a3d;
+  --color-paper: #0b0b0c;
+  --color-void: #060608;
+  --color-panel: #0f1013;
+  --color-panel-2: #131418;
+  --color-line: #1e2026;
+  --color-line-2: #282b32;
+  --color-star: #cfd6e6;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --shadow-glow: 0 0 0 1px rgba(255, 75, 42, 0.28), 0 0 32px -6px rgba(255, 75, 42, 0.45);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --header-h: 60px;
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  max-width: 100vw;
+}
+
+::selection {
+  background: var(--color-cursor);
+  color: #0b0b0c;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+::-webkit-scrollbar-thumb {
+  background: #24262d;
+  border-radius: 999px;
+  border: 3px solid var(--color-void);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #33363f;
+}
+
+/* ── Reusable atoms ─────────────────────────────────────────── */
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "cv01";
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hairline {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    var(--color-line-2) 20%,
+    var(--color-line-2) 80%,
+    transparent
+  );
+}
+
+/* Cross grid — the "engineer's graph paper" backdrop layer. */
+.grid-paper {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 100% 70% at 50% 30%, #000 40%, transparent 100%);
+}
+
+/* Text that fades from ink → cursor for headline flourishes. */
+.text-gradient {
+  background: linear-gradient(100deg, var(--color-ink) 30%, #ffd9cd 60%, var(--color-ember) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-ember {
+  background: linear-gradient(180deg, var(--color-ember), var(--color-cursor));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Glowing vermilion cursor block. */
+.cursor-block {
+  display: inline-block;
+  width: 0.56em;
+  height: 1.05em;
+  vertical-align: -0.16em;
+  margin-left: 0.14em;
+  border-radius: 2px;
+  background: var(--color-cursor);
+  box-shadow: 0 0 12px rgba(255, 75, 42, 0.75);
+  animation: blink 1.15s steps(1) infinite;
+}
+
+.card {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)) ,
+    var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  transition: border-color 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s var(--ease-out-expo);
+}
+.card:hover {
+  border-color: rgba(255, 75, 42, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 24px 60px -30px rgba(255, 75, 42, 0.5);
+}
+
+/* Vermilion halo used behind marks and CTAs. */
+.halo::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 75, 42, 0.22), transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.btn-primary {
+  position: relative;
+  background: linear-gradient(180deg, #ff5c3b, #e8391c);
+  color: #120503;
+  font-weight: 600;
+  box-shadow: 0 0 0 1px rgba(255, 120, 90, 0.5), 0 14px 30px -12px rgba(255, 75, 42, 0.8);
+  transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s var(--ease-out-expo),
+    filter 0.25s var(--ease-out-expo);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow: 0 0 0 1px rgba(255, 140, 110, 0.7), 0 18px 40px -12px rgba(255, 75, 42, 0.95);
+}
+
+.btn-ghost {
+  border: 1px solid var(--color-line-2);
+  color: var(--color-ink);
+  background: rgba(255, 255, 255, 0.015);
+  transition: border-color 0.25s var(--ease-out-expo), background 0.25s var(--ease-out-expo),
+    transform 0.25s var(--ease-out-expo);
+}
+.btn-ghost:hover {
+  border-color: #3a3d45;
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-1px);
+}
+
+.dotgrid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ── Keyframes ──────────────────────────────────────────────── */
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-40px, -20px, 0);
+  }
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes pulseline {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.7s var(--ease-out-expo) both;
+}
+
+/* Progressive-enhancement scroll reveal.
+   Content is visible by default (no-JS safe). The inline <head> script adds
+   `.js` to <html>, which hides `.reveal` until the observer adds `.in`. */
+.reveal {
+  transition:
+    opacity 0.7s var(--ease-out-expo),
+    transform 0.7s var(--ease-out-expo);
+}
+.js .reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 22px));
+  will-change: opacity, transform;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+.spin-slow {
+  animation: spin-slow 26s linear infinite;
+}
+
+.marquee-track {
+  animation: marquee 34s linear infinite;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Shimmer sweep used on the "verify" bar. */
+.sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.14) 50%,
+    transparent 80%
+  );
+  transform: translateX(-120%);
+  animation: sweep 2.4s var(--ease-out-expo) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .cursor-block {
+    opacity: 1;
+  }
+}

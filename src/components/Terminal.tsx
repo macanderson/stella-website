@@ -1,0 +1,176 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+type Line = {
+  tag?: string;
+  tone?: "run" | "ok" | "muted" | "cmd";
+  text: string;
+  // rendered as key: value with tag column
+};
+
+const COMMAND = 'stella run "add rate limiting to /login and prove it works"';
+
+const LINES: Line[] = [
+  { tag: "triage", tone: "run", text: "classified · feature · 1 route · tests required" },
+  { tag: "plan", tone: "run", text: "4 steps · limiter → middleware → config → witness" },
+  { tag: "witness", tone: "muted", text: "drafting an independent failing test (tamper-excluded)…" },
+  { tag: "witness", tone: "ok", text: "test_login_rate_limit  →  RED at git HEAD · evidence pinned" },
+  { tag: "execute", tone: "run", text: "src/middleware/rate_limit.rs      +38  −2" },
+  { tag: "execute", tone: "run", text: "src/routes/login.rs               +6   −1" },
+  { tag: "verify", tone: "muted", text: "replaying the witness on a shadow worktree @ HEAD…" },
+  { tag: "verify", tone: "ok", text: "RED → GREEN · fail→pass flip confirmed (deterministic)" },
+  { tag: "judge", tone: "run", text: "evidence = DeterministicPass · submitting" },
+  { tag: "receipt", tone: "ok", text: "sha256:9f2c…a71 · 12 context blocks · replayable" },
+  { tag: "done", tone: "ok", text: "branch stella/login-rate-limit → PR #128 opened" },
+];
+
+function toneClass(tone?: Line["tone"]) {
+  switch (tone) {
+    case "ok":
+      return "text-ink";
+    case "muted":
+      return "text-sub";
+    case "run":
+      return "text-ink/85";
+    default:
+      return "text-ink";
+  }
+}
+
+export function Terminal() {
+  const [typed, setTyped] = useState(0);
+  const [shown, setShown] = useState(0);
+  const [done, setDone] = useState(false);
+  const timers = useRef<number[]>([]);
+
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setTyped(COMMAND.length);
+      setShown(LINES.length);
+      setDone(true);
+      return;
+    }
+
+    const push = (fn: () => void, ms: number) => {
+      timers.current.push(window.setTimeout(fn, ms));
+    };
+
+    const run = () => {
+      // reset
+      setTyped(0);
+      setShown(0);
+      setDone(false);
+      let clock = 500;
+
+      // type the command
+      for (let i = 1; i <= COMMAND.length; i++) {
+        push(() => setTyped(i), clock);
+        clock += 26 + (COMMAND[i - 1] === " " ? 24 : 0);
+      }
+      clock += 380;
+
+      // reveal output lines with cadence that mimics real work
+      LINES.forEach((l, idx) => {
+        const gap = l.tone === "muted" ? 620 : l.tag === "execute" ? 340 : 460;
+        clock += gap;
+        push(() => setShown(idx + 1), clock);
+      });
+
+      clock += 700;
+      push(() => setDone(true), clock);
+      // loop
+      clock += 5200;
+      push(run, clock);
+    };
+
+    run();
+    return () => {
+      timers.current.forEach(clearTimeout);
+      timers.current = [];
+    };
+  }, []);
+
+  const cmd = COMMAND.slice(0, typed);
+  const typingCmd = typed < COMMAND.length;
+
+  return (
+    <div className="relative">
+      <div className="halo absolute inset-0" />
+      <div className="relative overflow-hidden rounded-xl border border-line-2 bg-[#0a0a0c]/90 shadow-[0_40px_120px_-40px_rgba(255,75,42,0.35)] backdrop-blur-sm">
+        {/* title bar */}
+        <div className="flex items-center gap-2 border-b border-line px-4 py-3">
+          <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+          <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+          <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+          <span className="mono ml-3 text-xs text-sub">stella — zsh — 96×28</span>
+          <span className="mono ml-auto hidden text-[10px] text-chevron sm:inline">
+            v0.6.2
+          </span>
+        </div>
+
+        {/* body */}
+        <div className="mono min-h-[420px] px-4 py-4 text-[13px] leading-relaxed sm:px-5 sm:text-sm">
+          {/* prompt line */}
+          <div className="flex flex-wrap items-baseline gap-x-2">
+            <span className="text-cursor">›</span>
+            <span className="text-sub">~/acme/api</span>
+            <span className="whitespace-pre-wrap break-words text-ink">
+              {cmd}
+              {typingCmd && <span className="cursor-block" />}
+            </span>
+          </div>
+
+          {/* output */}
+          <div className="mt-3 space-y-[3px]">
+            {LINES.slice(0, shown).map((l, i) => {
+              const ok = l.tone === "ok";
+              return (
+                <div
+                  key={i}
+                  className="flex items-start gap-2.5 animate-rise"
+                  style={{ animationDuration: "420ms" }}
+                >
+                  <span
+                    className={
+                      ok
+                        ? "mt-[3px] shrink-0 text-cursor"
+                        : l.tone === "muted"
+                          ? "mt-[3px] shrink-0 text-chevron"
+                          : "mt-[3px] shrink-0 text-ember"
+                    }
+                    aria-hidden
+                  >
+                    {ok ? "✓" : l.tone === "muted" ? "…" : "●"}
+                  </span>
+                  <span className="w-[68px] shrink-0 text-sub">{l.tag}</span>
+                  <span className={`min-w-0 flex-1 break-words ${toneClass(l.tone)}`}>
+                    {l.text}
+                  </span>
+                </div>
+              );
+            })}
+
+            {done && (
+              <div
+                className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-cursor/25 bg-cursor/[0.06] px-3 py-2 animate-rise"
+              >
+                <span className="mono text-xs text-cursor">◆ proof of work</span>
+                <span className="mono text-xs text-sub">
+                  every step above is replayable from its receipt — no trust required.
+                </span>
+              </div>
+            )}
+
+            {!typingCmd && shown < LINES.length && (
+              <div className="flex items-center gap-2 pt-1 text-sub">
+                <span className="cursor-block" />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

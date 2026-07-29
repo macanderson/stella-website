@@ -1,0 +1,20 @@
+{
+  "name": "Stella — Autonomous Software Delivery",
+  "short_name": "Stella",
+  "description": "The completely free, open-source autonomous software delivery system with built-in proof verification.",
+  "id": "/",
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "scope": "/",
+  "orientation": "any",
+  "background_color": "#0B0B0C",
+  "theme_color": "#0B0B0C",
+  "categories": ["developer", "productivity", "utilities"],
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
