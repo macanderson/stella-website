@@ -18,7 +18,14 @@ export function InstallBlock({
   accent?: boolean;
 }) {
   return (
-    <div>
+    // `min-w-0` here is load-bearing, not defensive. The command below is
+    // `whitespace-nowrap`, and a grid or flex item's default `min-width: auto`
+    // refuses to shrink below its own content — so the install section's grid
+    // track grew to the width of the longest command (734px) and scrolled the
+    // whole page sideways on a 390px phone. The `overflow-x-auto` on the <code>
+    // can only do its job once an ancestor is allowed to be narrower than the
+    // text it contains.
+    <div className="min-w-0">
       <div className="panel flex items-center gap-3 px-3 py-2.5">
         <span
           className={`mono select-none ${accent ? "text-gold" : "text-text-tertiary"}`}
