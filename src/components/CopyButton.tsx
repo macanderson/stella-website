@@ -40,7 +40,8 @@ export function CopyButton({ value, label = "Copy" }: { value: string; label?: s
       ) : (
         <IconCopy className="h-3.5 w-3.5" />
       )}
-      <span className="mono">{copied ? "copied" : label}</span>
+      {/* Fixed width so the label swap never reflows the row. */}
+      <span className="mono w-[3.1rem] text-left">{copied ? "copied" : label}</span>
     </button>
   );
 }

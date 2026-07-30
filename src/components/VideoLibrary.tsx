@@ -104,12 +104,17 @@ function Player({ clip }: { clip: Clip }) {
         </span>
       </div>
 
-      {/* the recording */}
-      <div className="relative bg-black">
+      {/*
+        The recording. The aspect ratio is pinned to the recorder's output
+        (100×30 cols/rows renders to 978×694) so the box is reserved before
+        any metadata loads — a bare <video> reports 300×150 until then, which
+        would jump the page on first paint and again on every clip swap.
+      */}
+      <div className="relative aspect-[978/694] w-full bg-black">
         {clip.mp4 ? (
           <video
             key={clip.mp4}
-            className="block w-full"
+            className="absolute inset-0 block h-full w-full"
             src={clip.mp4}
             autoPlay
             loop
@@ -120,7 +125,12 @@ function Player({ clip }: { clip: Clip }) {
           />
         ) : (
           /* eslint-disable-next-line @next/next/no-img-element */
-          <img key={clip.gif} src={clip.gif} alt={clip.title} className="block w-full" />
+          <img
+            key={clip.gif}
+            src={clip.gif}
+            alt={clip.title}
+            className="absolute inset-0 block h-full w-full object-contain"
+          />
         )}
       </div>
 
@@ -129,12 +139,16 @@ function Player({ clip }: { clip: Clip }) {
         <code className="mono block overflow-x-auto whitespace-nowrap text-[12px] text-sub [scrollbar-width:none]">
           <span className="text-gold">$</span> {clip.command}
         </code>
-        {clip.moneyLine && (
-          <p className="mono mt-2 flex items-start gap-2 text-[11px] leading-relaxed text-volt-bright">
-            <span aria-hidden>✓</span>
-            <span className="min-w-0">{clip.moneyLine}</span>
-          </p>
-        )}
+        {/* Two lines are reserved so a shorter money-line on another clip
+            cannot shrink the caption and shift the page on swap. */}
+        <p className="mono mt-2 flex min-h-[2.25rem] items-start gap-2 text-[11px] leading-relaxed text-volt-bright">
+          {clip.moneyLine && (
+            <>
+              <span aria-hidden>✓</span>
+              <span className="min-w-0">{clip.moneyLine}</span>
+            </>
+          )}
+        </p>
       </figcaption>
     </figure>
   );

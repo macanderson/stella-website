@@ -94,7 +94,6 @@ export function Terminal() {
   }, []);
 
   const cmd = COMMAND.slice(0, typed);
-  const typingCmd = typed < COMMAND.length;
 
   return (
     <div className="relative">
@@ -111,27 +110,45 @@ export function Terminal() {
           </span>
         </div>
 
-        {/* body */}
-        <div className="mono min-h-[420px] px-4 py-4 text-[13px] leading-relaxed sm:px-5 sm:text-sm">
-          {/* prompt line */}
+        {/*
+          Body — LAYOUT-STABLE BY CONSTRUCTION.
+
+          Every element is always in the flow at its final size; the animation
+          only ever changes `opacity` (and `transform`, which is also
+          layout-free). Nothing is conditionally mounted, so the terminal's
+          height is constant from first paint and never jumps — including when
+          the demo loops back to the start.
+        */}
+        <div className="mono px-4 py-4 text-[13px] leading-relaxed sm:px-5 sm:text-sm">
+          {/* prompt line — the whole command is always present so the wrap
+              point (and therefore the line count) never changes; the untyped
+              tail is simply transparent. */}
           <div className="flex flex-wrap items-baseline gap-x-2">
             <span className="text-cursor">›</span>
             <span className="text-sub">~/acme/api</span>
             <span className="whitespace-pre-wrap break-words text-ink">
               {cmd}
-              {typingCmd && <span className="cursor-block" />}
+              <span className="cursor-block" />
+              <span className="opacity-0" aria-hidden>
+                {COMMAND.slice(typed)}
+              </span>
             </span>
           </div>
 
           {/* output */}
           <div className="mt-3 space-y-[3px]">
-            {LINES.slice(0, shown).map((l, i) => {
+            {LINES.map((l, i) => {
               const ok = l.tone === "ok";
+              const visible = i < shown;
               return (
                 <div
                   key={i}
-                  className="flex items-start gap-2.5 animate-rise"
-                  style={{ animationDuration: "420ms" }}
+                  className="flex items-start gap-2.5 transition-[opacity,transform] duration-[420ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+                  style={{
+                    opacity: visible ? 1 : 0,
+                    transform: visible ? "none" : "translateY(6px)",
+                  }}
+                  aria-hidden={!visible}
                 >
                   <span
                     className={
@@ -153,22 +170,16 @@ export function Terminal() {
               );
             })}
 
-            {done && (
-              <div
-                className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-volt/30 bg-volt/[0.07] px-3 py-2 animate-rise"
-              >
-                <span className="mono text-xs text-volt-bright">◆ stella inspect</span>
-                <span className="mono text-xs text-sub">
-                  replay every step above from its receipt — digest-verified.
-                </span>
-              </div>
-            )}
-
-            {!typingCmd && shown < LINES.length && (
-              <div className="flex items-center gap-2 pt-1 text-sub">
-                <span className="cursor-block" />
-              </div>
-            )}
+            <div
+              className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-volt/30 bg-volt/[0.07] px-3 py-2 transition-opacity duration-500"
+              style={{ opacity: done ? 1 : 0 }}
+              aria-hidden={!done}
+            >
+              <span className="mono text-xs text-volt-bright">◆ stella inspect</span>
+              <span className="mono text-xs text-sub">
+                replay every step above from its receipt — digest-verified.
+              </span>
+            </div>
           </div>
         </div>
       </div>
