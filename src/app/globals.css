@@ -1,28 +1,38 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────
-   Stella brand tokens — the `›stella▮` prompt identity.
-   Monochrome ink/paper + vermilion block cursor.
-   This site commits to the deep-space dark theme.
+   Stella — electric blue + gold on deep space.
+   The `›stella▮` prompt identity keeps its exact geometry; only the
+   accent hues change (block cursor = gold, primary action = blue).
    ───────────────────────────────────────────────────────────── */
 @theme {
-  --color-ink: #f5f6f7;
-  --color-sub: #8b9199;
-  --color-chevron: #45494f;
-  --color-cursor: #ff4b2a;
-  --color-ember: #ff8a3d;
-  --color-paper: #0b0b0c;
-  --color-void: #060608;
-  --color-panel: #0f1013;
-  --color-panel-2: #131418;
-  --color-line: #1e2026;
-  --color-line-2: #282b32;
-  --color-star: #cfd6e6;
+  --color-ink: #f2f5fa;
+  --color-sub: #8e97a8;
+  --color-chevron: #3f4652;
+
+  /* electric blue — primary accent */
+  --color-volt: #2e7bff;
+  --color-volt-bright: #5aa0ff;
+  --color-volt-deep: #1550c8;
+
+  /* gold — secondary accent + the block cursor */
+  --color-gold: #f5c145;
+  --color-gold-bright: #ffd873;
+  --color-gold-deep: #c99420;
+
+  /* the mark's cursor block reads gold in this theme */
+  --color-cursor: #f5c145;
+
+  --color-paper: #080a0f;
+  --color-void: #05070c;
+  --color-panel: #0b0f17;
+  --color-panel-2: #101623;
+  --color-line: #182031;
+  --color-line-2: #232d42;
+  --color-star: #cfd9ee;
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
-
-  --shadow-glow: 0 0 0 1px rgba(255, 75, 42, 0.28), 0 0 32px -6px rgba(255, 75, 42, 0.45);
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -66,12 +76,12 @@ body {
   background: var(--color-void);
 }
 ::-webkit-scrollbar-thumb {
-  background: #24262d;
+  background: #202a3d;
   border-radius: 999px;
   border: 3px solid var(--color-void);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #33363f;
+  background: #2d3a54;
 }
 
 /* ── Reusable atoms ─────────────────────────────────────────── */
@@ -106,22 +116,30 @@ body {
   mask-image: radial-gradient(ellipse 100% 70% at 50% 30%, #000 40%, transparent 100%);
 }
 
-/* Text that fades from ink → cursor for headline flourishes. */
+/* Headline flourish — ink → gold. */
 .text-gradient {
-  background: linear-gradient(100deg, var(--color-ink) 30%, #ffd9cd 60%, var(--color-ember) 100%);
+  background: linear-gradient(100deg, var(--color-ink) 28%, #ffe9b8 62%, var(--color-gold) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-.text-ember {
-  background: linear-gradient(180deg, var(--color-ember), var(--color-cursor));
+/* Secondary flourish — electric blue. */
+.text-volt {
+  background: linear-gradient(180deg, var(--color-volt-bright), var(--color-volt));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* Glowing vermilion cursor block. */
+.text-gold {
+  background: linear-gradient(180deg, var(--color-gold-bright), var(--color-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* The gold block cursor. */
 .cursor-block {
   display: inline-block;
   width: 0.56em;
@@ -129,15 +147,15 @@ body {
   vertical-align: -0.16em;
   margin-left: 0.14em;
   border-radius: 2px;
-  background: var(--color-cursor);
-  box-shadow: 0 0 12px rgba(255, 75, 42, 0.75);
+  background: var(--color-gold);
+  box-shadow: 0 0 12px rgba(245, 193, 69, 0.7);
   animation: blink 1.15s steps(1) infinite;
 }
 
 .card {
   position: relative;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)) ,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
     var(--color-panel);
   border: 1px solid var(--color-line);
   border-radius: 16px;
@@ -145,17 +163,17 @@ body {
     box-shadow 0.4s var(--ease-out-expo);
 }
 .card:hover {
-  border-color: rgba(255, 75, 42, 0.35);
+  border-color: rgba(46, 123, 255, 0.45);
   transform: translateY(-3px);
-  box-shadow: 0 24px 60px -30px rgba(255, 75, 42, 0.5);
+  box-shadow: 0 24px 60px -30px rgba(46, 123, 255, 0.55);
 }
 
-/* Vermilion halo used behind marks and CTAs. */
+/* Electric-blue halo behind marks and CTAs. */
 .halo::before {
   content: "";
   position: absolute;
   inset: -40% -20%;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 75, 42, 0.22), transparent 70%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(46, 123, 255, 0.24), transparent 70%);
   filter: blur(20px);
   z-index: -1;
   pointer-events: none;
@@ -163,17 +181,32 @@ body {
 
 .btn-primary {
   position: relative;
-  background: linear-gradient(180deg, #ff5c3b, #e8391c);
-  color: #120503;
+  background: linear-gradient(180deg, var(--color-volt-bright), var(--color-volt-deep));
+  color: #f7fbff;
   font-weight: 600;
-  box-shadow: 0 0 0 1px rgba(255, 120, 90, 0.5), 0 14px 30px -12px rgba(255, 75, 42, 0.8);
+  box-shadow: 0 0 0 1px rgba(120, 170, 255, 0.5), 0 14px 30px -12px rgba(46, 123, 255, 0.85);
   transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s var(--ease-out-expo),
     filter 0.25s var(--ease-out-expo);
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  filter: brightness(1.06);
-  box-shadow: 0 0 0 1px rgba(255, 140, 110, 0.7), 0 18px 40px -12px rgba(255, 75, 42, 0.95);
+  filter: brightness(1.08);
+  box-shadow: 0 0 0 1px rgba(160, 200, 255, 0.7), 0 18px 40px -12px rgba(46, 123, 255, 1);
+}
+
+/* Gold secondary — prominent, but never competes with primary. */
+.btn-gold {
+  border: 1px solid rgba(245, 193, 69, 0.45);
+  background: rgba(245, 193, 69, 0.09);
+  color: var(--color-gold-bright);
+  font-weight: 500;
+  transition: border-color 0.25s var(--ease-out-expo), background 0.25s var(--ease-out-expo),
+    transform 0.25s var(--ease-out-expo);
+}
+.btn-gold:hover {
+  border-color: rgba(245, 193, 69, 0.8);
+  background: rgba(245, 193, 69, 0.15);
+  transform: translateY(-1px);
 }
 
 .btn-ghost {
@@ -184,7 +217,7 @@ body {
     transform 0.25s var(--ease-out-expo);
 }
 .btn-ghost:hover {
-  border-color: #3a3d45;
+  border-color: #35405a;
   background: rgba(255, 255, 255, 0.04);
   transform: translateY(-1px);
 }
@@ -335,3 +368,4 @@ body {
     opacity: 1;
   }
 }
+

@@ -6,10 +6,10 @@ const COLS = [
   {
     title: "Product",
     links: [
-      { label: "Proof", href: "#proof" },
-      { label: "Capabilities", href: "#capabilities" },
-      { label: "Observe", href: "#observe" },
-      { label: "Embed", href: "#embed" },
+      { label: "Not a black box", href: "#transparency" },
+      { label: "Example videos", href: "#videos" },
+      { label: "Switching over", href: "#parity" },
+      { label: "Install", href: "#get" },
     ],
   },
   {

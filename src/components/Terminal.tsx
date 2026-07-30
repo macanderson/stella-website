@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { SITE } from "@/lib/site";
 
 type Line = {
   tag?: string;
@@ -98,7 +99,7 @@ export function Terminal() {
   return (
     <div className="relative">
       <div className="halo absolute inset-0" />
-      <div className="relative overflow-hidden rounded-xl border border-line-2 bg-[#0a0a0c]/90 shadow-[0_40px_120px_-40px_rgba(255,75,42,0.35)] backdrop-blur-sm">
+      <div className="relative overflow-hidden rounded-xl border border-line-2 bg-[#070a11]/92 shadow-[0_40px_120px_-40px_rgba(46,123,255,0.4)] backdrop-blur-sm">
         {/* title bar */}
         <div className="flex items-center gap-2 border-b border-line px-4 py-3">
           <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
@@ -106,7 +107,7 @@ export function Terminal() {
           <span className="h-3 w-3 rounded-full bg-[#28c840]" />
           <span className="mono ml-3 text-xs text-sub">stella — zsh — 96×28</span>
           <span className="mono ml-auto hidden text-[10px] text-chevron sm:inline">
-            v0.6.2
+            v{SITE.version}
           </span>
         </div>
 
@@ -135,10 +136,10 @@ export function Terminal() {
                   <span
                     className={
                       ok
-                        ? "mt-[3px] shrink-0 text-cursor"
+                        ? "mt-[3px] shrink-0 text-gold"
                         : l.tone === "muted"
                           ? "mt-[3px] shrink-0 text-chevron"
-                          : "mt-[3px] shrink-0 text-ember"
+                          : "mt-[3px] shrink-0 text-volt-bright"
                     }
                     aria-hidden
                   >
@@ -154,11 +155,11 @@ export function Terminal() {
 
             {done && (
               <div
-                className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-cursor/25 bg-cursor/[0.06] px-3 py-2 animate-rise"
+                className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-volt/30 bg-volt/[0.07] px-3 py-2 animate-rise"
               >
-                <span className="mono text-xs text-cursor">◆ proof of work</span>
+                <span className="mono text-xs text-volt-bright">◆ stella inspect</span>
                 <span className="mono text-xs text-sub">
-                  every step above is replayable from its receipt — no trust required.
+                  replay every step above from its receipt — digest-verified.
                 </span>
               </div>
             )}

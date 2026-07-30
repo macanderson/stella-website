@@ -1,11 +1,9 @@
 import { StarfieldBackdrop } from "@/components/StarfieldBackdrop";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
-import { ProofSection } from "@/components/ProofSection";
-import { CapabilitiesGrid } from "@/components/CapabilitiesGrid";
-import { ObserveSection } from "@/components/ObserveSection";
-import { EmbedSection } from "@/components/EmbedSection";
-import { VideoSection } from "@/components/VideoSection";
+import { TransparencySection } from "@/components/TransparencySection";
+import { ParitySection } from "@/components/ParitySection";
+import { VideoLibrary } from "@/components/VideoLibrary";
 import { GetStartedSection } from "@/components/GetStartedSection";
 import { Footer } from "@/components/Footer";
 import { PWARegister } from "@/components/PWARegister";
@@ -20,13 +18,10 @@ export default function Home() {
       <main className="relative">
         <Hero />
         <SectionDivider />
-        <ProofSection />
-        <CapabilitiesGrid />
+        <TransparencySection />
         <SectionDivider />
-        <ObserveSection />
-        <EmbedSection />
-        <SectionDivider />
-        <VideoSection />
+        <VideoLibrary />
+        <ParitySection />
         <GetStartedSection />
       </main>
       <Footer />

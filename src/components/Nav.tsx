@@ -6,11 +6,9 @@ import { StellaGlyph } from "./StellaMark";
 import { IconGitHub } from "./icons";
 
 const LINKS = [
-  { href: "#proof", label: "Proof" },
-  { href: "#capabilities", label: "Capabilities" },
-  { href: "#observe", label: "Observe" },
-  { href: "#embed", label: "Embed" },
-  { href: "#free", label: "Free" },
+  { href: "#transparency", label: "Not a black box" },
+  { href: "#videos", label: "Videos" },
+  { href: "#parity", label: "Switching" },
 ];
 
 export function Nav() {

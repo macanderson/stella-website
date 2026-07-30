@@ -1,14 +1,14 @@
 {
-  "name": "Stella — Autonomous Software Delivery",
+  "name": "Stella — Free. Fast. Rust.",
   "short_name": "Stella",
-  "description": "The completely free, open-source autonomous software delivery system with built-in proof verification.",
+  "description": "A free, open-source terminal coding agent in Rust that shows you its work: replay any model call, proof it cannot fake, context over an open protocol.",
   "id": "/",
   "start_url": "/?source=pwa",
   "display": "standalone",
   "scope": "/",
   "orientation": "any",
-  "background_color": "#0B0B0C",
-  "theme_color": "#0B0B0C",
+  "background_color": "#05070C",
+  "theme_color": "#05070C",
   "categories": ["developer", "productivity", "utilities"],
   "icons": [
     { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },

@@ -7,15 +7,16 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Stella — Autonomous software delivery that proves its own work",
+    default: "Stella — Free. Configurable. Fast. Rust. And damn good.",
     template: "%s — Stella",
   },
   description: SITE.description,
   applicationName: SITE.name,
   keywords: [
     "Stella",
-    "autonomous coding agent",
-    "software delivery",
+    "coding agent",
+    "terminal coding agent",
+    "Rust",
     "AI agent",
     "deterministic verification",
     "open source",
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: SITE.url,
-    title: "Stella — Autonomous software delivery that proves its own work",
+    title: "Stella — Free. Configurable. Fast. Rust. And damn good.",
     description: SITE.description,
     siteName: SITE.name,
     images: [
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Stella — the agent that proves its own work",
+    title: "Stella — the coding agent that shows you its work",
     description: SITE.description,
     images: ["/og-dark.png"],
   },
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0B0C",
+  themeColor: "#05070C",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
