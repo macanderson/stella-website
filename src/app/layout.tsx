@@ -4,29 +4,26 @@ import { GeistMono } from "geist/font/mono";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
+const TITLE = "Stella — a coding agent that keeps receipts";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: {
-    default: "Stella — Free. Configurable. Fast. Rust. And damn good.",
-    template: "%s — Stella",
-  },
+  title: { default: TITLE, template: "%s — Stella" },
   description: SITE.description,
   applicationName: SITE.name,
   keywords: [
     "Stella",
-    "coding agent",
     "terminal coding agent",
     "Rust",
-    "AI agent",
     "deterministic verification",
-    "open source",
-    "AGPL",
     "Context Graph Protocol",
     "BYOK",
+    "AGPL-3.0-only",
     "developer tools",
   ],
-  authors: [{ name: "Oxagen" }],
-  creator: "Oxagen",
+  authors: [{ name: "Oxagen, Inc." }],
+  creator: "Oxagen, Inc.",
+  publisher: "Oxagen, Inc.",
   manifest: "/manifest.webmanifest",
   alternates: { canonical: "/" },
   icons: {
@@ -40,16 +37,22 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: SITE.url,
-    title: "Stella — Free. Configurable. Fast. Rust. And damn good.",
+    title: TITLE,
     description: SITE.description,
     siteName: SITE.name,
+    locale: "en_US",
     images: [
-      { url: "/og-dark.png", width: 1200, height: 630, alt: "Stella" },
+      {
+        url: "/og-dark.png",
+        width: 1200,
+        height: 630,
+        alt: "Stella — a terminal coding agent written in Rust",
+      },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Stella — the coding agent that shows you its work",
+    title: TITLE,
     description: SITE.description,
     images: ["/og-dark.png"],
   },
@@ -63,13 +66,11 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Stella",
+    name: SITE.name,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "macOS, Linux",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -77,19 +78,11 @@ export default function RootLayout({
     softwareVersion: SITE.version,
     license: "https://www.gnu.org/licenses/agpl-3.0.en.html",
     url: SITE.url,
+    author: { "@type": "Organization", name: "Oxagen, Inc." },
   };
 
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} dark`}>
-      <head>
-        {/* Set `.js` before first paint so scroll-reveals start hidden without
-            a flash — and stay visible for no-JS / crawler requests. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: "document.documentElement.classList.add('js')",
-          }}
-        />
-      </head>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body>
         <script
           type="application/ld+json"

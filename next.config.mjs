@@ -5,11 +5,11 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/sw.js",
-        headers: [
-          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
-          { key: "Service-Worker-Allowed", value: "/" },
-        ],
+        // The recordings are content-addressed by name and never mutate in
+        // place; a new clip gets a new file. Long-cache them so a second
+        // visit costs nothing.
+        source: "/videos/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
     ];
   },

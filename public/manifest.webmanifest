@@ -1,20 +1,45 @@
 {
-  "name": "Stella — Free. Fast. Rust.",
+  "name": "Stella",
   "short_name": "Stella",
-  "description": "A free, open-source terminal coding agent in Rust that shows you its work: replay any model call, proof it cannot fake, context over an open protocol.",
-  "id": "/",
-  "start_url": "/?source=pwa",
+  "description": "A terminal coding agent written in Rust that records a receipt for every model call.",
+  "start_url": "/",
   "display": "standalone",
   "scope": "/",
   "orientation": "any",
   "background_color": "#05070C",
   "theme_color": "#05070C",
-  "categories": ["developer", "productivity", "utilities"],
+  "categories": [
+    "developer",
+    "productivity",
+    "utilities"
+  ],
   "icons": [
-    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }
