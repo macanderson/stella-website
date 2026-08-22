@@ -1,8 +1,12 @@
-// The example-videos library. Every entry is a REAL terminal recording of a
-// real Stella run, captured with `scripts/record-demo.sh` (asciinema → agg)
-// and rendered as a timelapse. Nothing here is staged or re-enacted.
+// Terminal recordings of real Stella runs.
 //
-// Adding a clip: record it, drop <slug>.mp4 in public/videos/, add a row here.
+// Captured with `scripts/record-demo.sh` in macanderson/stella: asciinema
+// records the session to an asciicast file, `agg` renders it, and playback
+// speed is computed from the real duration to hit a target length
+// (scripts/record-demo.sh:15, :30-35, :66).
+//
+// `moneyLine` is a line that appears in the recording itself, so the claim is
+// checkable by pressing play. Do not add a line here that is not on screen.
 
 export type Clip = {
   slug: string;
@@ -15,53 +19,46 @@ export type Clip = {
   realTime: string;
   /** Rendered length of the clip. */
   runtime: string;
-  /** The line from the run that proves what the clip claims. */
-  moneyLine?: string;
-  tags: string[];
-  mp4?: string;
-  gif?: string;
+  /** A line from the recording that carries what the clip demonstrates. */
+  moneyLine: string;
+  src: string;
 };
 
 export const CLIPS: Clip[] = [
   {
     slug: "witness-protocol",
-    title: "The witness protocol, start to finish",
+    title: "The witness protocol, end to end",
     blurb:
-      "A pricing bug that ignores item quantity. An independent witness writes the failing test, confirms it returns 650 instead of 1450 on the old code, then proves the fix flips it green.",
+      "A pricing bug that ignores item quantity. An independent witness writes the failing test, it fails on the old code, and the fix flips it green.",
     command:
       'stella run "total_cents ignores item quantity — it must multiply price by qty. Fix the bug." --keep-witness',
-    realTime: "84s real",
+    realTime: "84s",
     runtime: "26s",
     moneyLine:
       "verify (deterministic): flip oracle: fail→pass of `cargo test --test total_cents_quantity …`",
-    tags: ["witness", "flip oracle", "verify_done"],
-    mp4: "/videos/witness-protocol.mp4",
+    src: "/videos/witness-protocol.mp4",
   },
   {
     slug: "inspect-receipts",
-    title: "stella inspect — replay what the model saw",
+    title: "stella inspect, over a previous run",
     blurb:
-      "Twenty recorded model calls from the previous run. Drill into one and get the exact message array it was sent, re-checked against the digests taken at emission. No API key, nothing written.",
+      "Recorded model calls from the run before. Drill into one and get the message array it was sent, re-checked against the digests taken at emission.",
     command: "stella inspect · stella inspect 2 --step 1",
-    realTime: "7s real",
+    realTime: "7s",
     runtime: "6s",
     moneyLine: "verified: every journal-resolved block re-hashed to its recorded digest",
-    tags: ["inspect", "receipts", "offline"],
-    mp4: "/videos/inspect-receipts.mp4",
-    gif: "/videos/inspect-receipts.gif",
+    src: "/videos/inspect-receipts.mp4",
   },
   {
     slug: "build-and-test",
-    title: "A feature, built and tested in one turn",
+    title: "A change, planned and verified in one turn",
     blurb:
-      "Nineteen steps: index the code graph, plan, rewrite slugify() to produce real URL slugs, then write and run twelve tests. Cost and latency printed per step as it goes.",
-    command:
-      'stella run "Make slugify() produce real URL slugs…" --test-command "cargo test"',
-    realTime: "86s real",
+      "Index the code graph, plan, rewrite slugify() to produce real URL slugs, then write and run its tests. Cost and latency are printed per step.",
+    command: 'stella run "Make slugify() produce real URL slugs…" --test-command "cargo test"',
+    realTime: "86s",
     runtime: "26s",
-    moneyLine: "19 steps · 12 tests passing · $0.24 · every step priced in the transcript",
-    tags: ["code graph", "task board", "cost receipts"],
-    mp4: "/videos/build-and-test.mp4",
+    moneyLine: "every step priced in the transcript",
+    src: "/videos/build-and-test.mp4",
   },
 ];
 

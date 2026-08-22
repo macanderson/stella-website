@@ -1,360 +1,267 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────
-   Stella — electric blue + gold on deep space.
-   The `›stella▮` prompt identity keeps its exact geometry; only the
-   accent hues change (block cursor = gold, primary action = blue).
+   Stella — electric blue and gold on deep space.
+
+   Token names and values are normative from `docs/brand/BRAND.md`
+   in macanderson/stella. Do not rename or re-value a token here
+   without changing it there first.
+
+   Restraint rules this file enforces:
+   - One signature element: the gold block cursor of the `›stella▮`
+     mark — filled and static, "a prompt mid-thought". Nothing on
+     the page animates.
+   - Gold is identity, never status, and appears at most twice per
+     viewport: the mark, and the hero's shell prompt sigil.
+   - Blue is the interactive signal: links, focus, primary action.
+   - Structure is carried by space and type scale, not by borders,
+     gradients, shadows, or backdrops.
    ───────────────────────────────────────────────────────────── */
+
 @theme {
-  --color-ink: #f2f5fa;
-  --color-sub: #8e97a8;
-  --color-chevron: #3f4652;
+  /* Ground — deep space */
+  --color-void: #05070c;
+  --color-ground: #080a0f;
+  --color-surface: #0b0f17;
+  --color-raised: #101623;
+  --color-hairline: #182031;
+  --color-hairline-strong: #232d42;
 
-  /* electric blue — primary accent */
-  --color-volt: #2e7bff;
-  --color-volt-bright: #5aa0ff;
-  --color-volt-deep: #1550c8;
+  /* Not a BRAND.md token. BRAND says hairline/hairline-strong are
+     decorative and "never the sole carrier of structure" — measured,
+     they are 1.2:1 and 1.5:1 on void, so they cannot bound an
+     interactive control under WCAG 1.4.11. This is the one edge value
+     chosen for that job: 3.5:1 on void, 3.4:1 on surface. */
+  --color-edge-control: #5a6780;
 
-  /* gold — secondary accent + the block cursor */
+  /* Brand — electric blue (the interactive signal) */
+  --color-brand: #2e7bff;
+  --color-brand-bright: #5aa0ff;
+  --color-brand-deep: #1550c8;
+
+  /* Gold — the mark. Never status. */
   --color-gold: #f5c145;
   --color-gold-bright: #ffd873;
   --color-gold-deep: #c99420;
 
-  /* the mark's cursor block reads gold in this theme */
-  --color-cursor: #f5c145;
+  /* Text — dark ground. Ratios computed against --color-void:
+     primary 18.4:1 · secondary 6.9:1 · tertiary 4.9:1 */
+  --color-text: #f2f5fa;
+  --color-text-secondary: #8e97a8;
+  --color-text-tertiary: #737d92;
 
-  --color-paper: #080a0f;
-  --color-void: #05070c;
-  --color-panel: #0b0f17;
-  --color-panel-2: #101623;
-  --color-line: #182031;
-  --color-line-2: #232d42;
-  --color-star: #cfd9ee;
+  /* BRAND.md also defines the light-ground set (paper/snow/brand-ink/gold-ink)
+     and the status set (success/warning/danger). Neither is declared here: this
+     site is dark-only and shows no status, and BRAND requires status hues to be
+     glyph-paired, which an unused token invites someone to forget. Add them
+     back with their BRAND values if a light surface or a status ever ships. */
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
 
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Type scale — 1.25 modular, fluid only where a headline needs it. */
+  --text-2xs: 0.6875rem; /* 11px — mono eyebrow, metadata */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.3125rem;
+  --text-2xl: clamp(1.375rem, 1.2rem + 0.75vw, 1.625rem);
+  --text-3xl: clamp(1.75rem, 1.35rem + 1.7vw, 2.375rem);
+  --text-4xl: clamp(2.125rem, 1.5rem + 2.6vw, 3.125rem);
 }
 
+/* ── Rhythm ──────────────────────────────────────────────────
+   Every vertical gap on the page is one of these. The scale is a
+   4px grid; sections are 96/128px; the gap between a heading and
+   its body is always --space-4. The scale is declared whole so a new
+   component picks a step from it instead of inventing a value. */
 :root {
   color-scheme: dark;
-  --header-h: 60px;
+
+  --header-h: 56px;
+  --measure: 66ch;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
 }
 
-* {
-  border-color: var(--color-line);
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-  scroll-padding-top: calc(var(--header-h) + 12px);
-  overflow-x: hidden;
-}
-
-body {
-  background-color: var(--color-void);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  overflow-x: clip;
-  max-width: 100vw;
-}
-
-::selection {
-  background: var(--color-cursor);
-  color: #0b0b0c;
-}
-
-::-webkit-scrollbar {
-  width: 11px;
-  height: 11px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-void);
-}
-::-webkit-scrollbar-thumb {
-  background: #202a3d;
-  border-radius: 999px;
-  border: 3px solid var(--color-void);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #2d3a54;
-}
-
-/* ── Reusable atoms ─────────────────────────────────────────── */
-.mono {
-  font-family: var(--font-mono);
-  font-feature-settings: "ss01", "cv01";
-}
-
-.chip {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.hairline {
-  background-image: linear-gradient(
-    to right,
-    transparent,
-    var(--color-line-2) 20%,
-    var(--color-line-2) 80%,
-    transparent
-  );
-}
-
-/* Cross grid — the "engineer's graph paper" backdrop layer. */
-.grid-paper {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 46px 46px;
-  mask-image: radial-gradient(ellipse 100% 70% at 50% 30%, #000 40%, transparent 100%);
-}
-
-/* Headline flourish — ink → gold. */
-.text-gradient {
-  background: linear-gradient(100deg, var(--color-ink) 28%, #ffe9b8 62%, var(--color-gold) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Secondary flourish — electric blue. */
-.text-volt {
-  background: linear-gradient(180deg, var(--color-volt-bright), var(--color-volt));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.text-gold {
-  background: linear-gradient(180deg, var(--color-gold-bright), var(--color-gold));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* The gold block cursor. */
-.cursor-block {
-  display: inline-block;
-  width: 0.56em;
-  height: 1.05em;
-  vertical-align: -0.16em;
-  margin-left: 0.14em;
-  border-radius: 2px;
-  background: var(--color-gold);
-  box-shadow: 0 0 12px rgba(245, 193, 69, 0.7);
-  animation: blink 1.15s steps(1) infinite;
-}
-
-.card {
-  position: relative;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
-    var(--color-panel);
-  border: 1px solid var(--color-line);
-  border-radius: 16px;
-  transition: border-color 0.4s var(--ease-out-expo), transform 0.4s var(--ease-out-expo),
-    box-shadow 0.4s var(--ease-out-expo);
-}
-.card:hover {
-  border-color: rgba(46, 123, 255, 0.45);
-  transform: translateY(-3px);
-  box-shadow: 0 24px 60px -30px rgba(46, 123, 255, 0.55);
-}
-
-/* Electric-blue halo behind marks and CTAs. */
-.halo::before {
-  content: "";
-  position: absolute;
-  inset: -40% -20%;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(46, 123, 255, 0.24), transparent 70%);
-  filter: blur(20px);
-  z-index: -1;
-  pointer-events: none;
-}
-
-.btn-primary {
-  position: relative;
-  background: linear-gradient(180deg, var(--color-volt-bright), var(--color-volt-deep));
-  color: #f7fbff;
-  font-weight: 600;
-  box-shadow: 0 0 0 1px rgba(120, 170, 255, 0.5), 0 14px 30px -12px rgba(46, 123, 255, 0.85);
-  transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s var(--ease-out-expo),
-    filter 0.25s var(--ease-out-expo);
-}
-.btn-primary:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.08);
-  box-shadow: 0 0 0 1px rgba(160, 200, 255, 0.7), 0 18px 40px -12px rgba(46, 123, 255, 1);
-}
-
-/* Gold secondary — prominent, but never competes with primary. */
-.btn-gold {
-  border: 1px solid rgba(245, 193, 69, 0.45);
-  background: rgba(245, 193, 69, 0.09);
-  color: var(--color-gold-bright);
-  font-weight: 500;
-  transition: border-color 0.25s var(--ease-out-expo), background 0.25s var(--ease-out-expo),
-    transform 0.25s var(--ease-out-expo);
-}
-.btn-gold:hover {
-  border-color: rgba(245, 193, 69, 0.8);
-  background: rgba(245, 193, 69, 0.15);
-  transform: translateY(-1px);
-}
-
-.btn-ghost {
-  border: 1px solid var(--color-line-2);
-  color: var(--color-ink);
-  background: rgba(255, 255, 255, 0.015);
-  transition: border-color 0.25s var(--ease-out-expo), background 0.25s var(--ease-out-expo),
-    transform 0.25s var(--ease-out-expo);
-}
-.btn-ghost:hover {
-  border-color: #35405a;
-  background: rgba(255, 255, 255, 0.04);
-  transform: translateY(-1px);
-}
-
-.dotgrid {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
-
-/* ── Keyframes ──────────────────────────────────────────────── */
-@keyframes blink {
-  0%,
-  50% {
-    opacity: 1;
+/* ── Base ──────────────────────────────────────────────────────
+   Element defaults go in `@layer base` on purpose. Tailwind v4 puts
+   utilities in a cascade layer; an unlayered `h2 { font-size }` would
+   beat `class="text-2xs"` regardless of specificity, so a heading that
+   is deliberately small (a footer column label) would render at
+   display size. Layering makes utilities win, which is the contract
+   every component here is written against. */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + var(--space-6));
   }
-  50.01%,
-  100% {
-    opacity: 0;
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+  }
+
+  h2 {
+    font-size: var(--text-3xl);
+    line-height: 1.12;
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  ::selection {
+    background: var(--color-brand-deep);
+    color: #f7fbff;
+  }
+
+  /* Focus: one ring, everywhere, 7.6:1 against every ground we ship.
+     Never removed — `:focus-visible` already limits it to keyboard use. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-bright);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 }
 
-@keyframes floaty {
-  0%,
-  100% {
-    transform: translateY(0);
+/* ── Components ────────────────────────────────────────────────
+   Layered so a utility class always wins over a component class —
+   `class="panel p-6"` should get p-6, not the panel's padding. */
+@layer components {
+  /* ── Layout primitives ───────────────────────────────────────── */
+  .wrap {
+    margin-inline: auto;
+    max-width: 64rem;
+    padding-inline: var(--space-6);
   }
-  50% {
-    transform: translateY(-8px);
+
+  .section {
+    padding-block: var(--space-24);
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-block: var(--space-32);
+    }
+  }
+
+  /* The one gap that repeats: heading → body → detail. */
+  .prose-block > * + * {
+    margin-top: var(--space-4);
+  }
+
+  .prose-block p {
+    max-width: var(--measure);
+    color: var(--color-text-secondary);
+  }
+
+  .measure {
+    max-width: var(--measure);
+  }
+
+  /* ── Type atoms ──────────────────────────────────────────────── */
+  .mono {
+    font-family: var(--font-mono);
+    font-feature-settings: "ss01", "cv01";
+  }
+
+  /* Section eyebrow. Tertiary, 4.9:1 — the lowest contrast on the page. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+
+  /* ── Surfaces ────────────────────────────────────────────────── */
+  .panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-hairline);
+    border-radius: 8px;
+  }
+
+  /* ── Controls ────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    border-radius: 6px;
+    padding: 0.625rem 1rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  /* Solid brand-deep: #F7FBFF on #1550C8 is 6.7:1. The brighter
+     --color-brand would only reach 3.7:1 and is not used as a fill
+     behind text anywhere. */
+  .btn-primary {
+    background: var(--color-brand-deep);
+    color: #f7fbff;
+  }
+
+  .btn-primary:hover {
+    background: #1a5ee0;
+  }
+
+  /* Inline link — underline is the affordance, colour only reinforces it. */
+  .link {
+    color: var(--color-brand-bright);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: rgb(90 160 255 / 0.4);
+  }
+
+  .link:hover {
+    text-decoration-color: currentColor;
   }
 }
 
-@keyframes drift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-40px, -20px, 0);
-  }
-}
-
-@keyframes sweep {
-  0% {
-    transform: translateX(-120%);
-  }
-  100% {
-    transform: translateX(220%);
-  }
-}
-
-@keyframes pulseline {
-  0%,
-  100% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes spin-slow {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-rise {
-  animation: rise 0.7s var(--ease-out-expo) both;
-}
-
-/* Progressive-enhancement scroll reveal.
-   Content is visible by default (no-JS safe). The inline <head> script adds
-   `.js` to <html>, which hides `.reveal` until the observer adds `.in`. */
-.reveal {
-  transition:
-    opacity 0.7s var(--ease-out-expo),
-    transform 0.7s var(--ease-out-expo);
-}
-.js .reveal {
-  opacity: 0;
-  transform: translateY(var(--reveal-y, 22px));
-  will-change: opacity, transform;
-}
-.reveal.in {
-  opacity: 1;
-  transform: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .js .reveal {
-    opacity: 1;
-    transform: none;
-  }
-}
-.animate-floaty {
-  animation: floaty 6s ease-in-out infinite;
-}
-.spin-slow {
-  animation: spin-slow 26s linear infinite;
-}
-
-.marquee-track {
-  animation: marquee 34s linear infinite;
-}
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* Shimmer sweep used on the "verify" bar. */
-.sweep::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    100deg,
-    transparent 20%,
-    rgba(255, 255, 255, 0.14) 50%,
-    transparent 80%
-  );
-  transform: translateX(-120%);
-  animation: sweep 2.4s var(--ease-out-expo) infinite;
-}
-
+/* Standing guard. Nothing on this page animates today; this keeps that true
+   for anything added later, and stops smooth scrolling for readers who asked
+   for less motion. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -364,8 +271,4 @@ body {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .cursor-block {
-    opacity: 1;
-  }
 }
-

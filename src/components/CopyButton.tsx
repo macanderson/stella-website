@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IconCheck, IconCopy } from "./icons";
 
-export function CopyButton({ value, label = "Copy" }: { value: string; label?: string }) {
+export function CopyButton({ value, label = "Copy command" }: { value: string; label?: string }) {
   const [copied, setCopied] = useState(false);
+  const timer = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
 
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(value);
     } catch {
-      // clipboard blocked — fall back to a transient textarea
+      // Clipboard API unavailable or blocked — fall back to a transient textarea.
       const ta = document.createElement("textarea");
       ta.value = value;
       ta.style.position = "fixed";
@@ -20,28 +23,31 @@ export function CopyButton({ value, label = "Copy" }: { value: string; label?: s
       try {
         document.execCommand("copy");
       } catch {
-        /* ignore */
+        /* nothing further to try */
       }
       document.body.removeChild(ta);
     }
     setCopied(true);
-    window.setTimeout(() => setCopied(false), 1600);
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setCopied(false), 1600);
   };
 
   return (
     <button
       type="button"
       onClick={copy}
-      aria-label={copied ? "Copied" : label}
-      className="group inline-flex shrink-0 items-center gap-1.5 rounded-md border border-line-2 bg-white/[0.02] px-2.5 py-1.5 text-xs text-sub transition-colors hover:border-cursor/50 hover:text-ink"
+      className="shrink-0 rounded-md border border-edge-control p-1.5 text-text-secondary hover:border-text-secondary hover:text-text"
     >
       {copied ? (
-        <IconCheck className="h-3.5 w-3.5 text-cursor" />
+        <IconCheck className="h-4 w-4" aria-hidden />
       ) : (
-        <IconCopy className="h-3.5 w-3.5" />
+        <IconCopy className="h-4 w-4" aria-hidden />
       )}
-      {/* Fixed width so the label swap never reflows the row. */}
-      <span className="mono w-[3.1rem] text-left">{copied ? "copied" : label}</span>
+      {/* The visible label is an icon, so the state change has to be announced. */}
+      <span className="sr-only">{label}</span>
+      <span role="status" aria-live="polite" className="sr-only">
+        {copied ? "Copied to clipboard" : ""}
+      </span>
     </button>
   );
 }

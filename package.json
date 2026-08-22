@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Marketing site for Stella — the completely free, autonomous software delivery system with built-in proof verification.",
+  "description": "Marketing site for Stella, a terminal coding agent written in Rust.",
   "packageManager": "pnpm@11.13.0",
   "engines": {
     "node": ">=20"
@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "geist": "1.5.1",
-    "motion": "12.23.24",
     "next": "16.2.11",
     "react": "19.2.6",
     "react-dom": "19.2.6"

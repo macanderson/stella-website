@@ -1,93 +1,77 @@
 import { SITE } from "@/lib/site";
 import { StellaGlyph } from "./StellaMark";
-import { IconGitHub } from "./icons";
 
 const COLS = [
   {
     title: "Product",
     links: [
-      { label: "Not a black box", href: "#transparency" },
-      { label: "Example videos", href: "#videos" },
-      { label: "Switching over", href: "#parity" },
-      { label: "Install", href: "#get" },
+      { label: "How it works", href: "#receipts" },
+      { label: "Recordings", href: "#recordings" },
+      { label: "Switching", href: "#switching" },
+      { label: "Install", href: "#install" },
     ],
   },
   {
     title: "Resources",
     links: [
       { label: "Documentation", href: SITE.docs },
-      { label: "GitHub", href: SITE.repo },
-      { label: "Context Graph Protocol", href: SITE.cgp },
+      { label: "Source", href: SITE.repo },
       { label: "Changelog", href: `${SITE.repo}/blob/main/CHANGELOG.md` },
+      { label: "Context Graph Protocol", href: SITE.cgp },
     ],
   },
   {
-    title: "Install",
+    title: "Legal",
     links: [
-      { label: "curl · install.sh", href: `${SITE.repo}/blob/main/install.sh` },
-      { label: "Homebrew tap", href: SITE.repo },
-      { label: "Build with cargo", href: SITE.repo },
-      { label: "License (AGPL-3.0)", href: `${SITE.repo}/blob/main/LICENSE` },
+      { label: "AGPL-3.0-only", href: `${SITE.repo}/blob/main/LICENSE` },
+      { label: "Licensing tracks", href: SITE.licensing },
+      { label: "Security", href: `${SITE.repo}/blob/main/SECURITY.md` },
+      { label: "Code of conduct", href: `${SITE.repo}/blob/main/CODE_OF_CONDUCT.md` },
     ],
   },
 ];
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-line py-14">
-      <div className="mx-auto max-w-6xl px-5">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-[2fr_1fr_1fr_1fr]">
-          <div className="col-span-2 md:col-span-1">
+    <footer className="border-t border-hairline py-16">
+      <div className="wrap">
+        <div className="grid gap-x-12 gap-y-10 md:grid-cols-[2fr_1fr_1fr_1fr]">
+          <div>
             <div className="flex items-center gap-2.5">
-              <StellaGlyph className="h-6 w-auto text-ink" />
-              <span className="mono text-sm font-semibold text-ink">stella</span>
+              <StellaGlyph className="h-5 w-auto text-text" />
+              <span className="mono text-sm font-semibold">stella</span>
             </div>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-sub">
-              Autonomous software delivery with built-in proof. Free and open source.
+            <p className="mt-4 max-w-xs text-sm text-text-secondary">
+              A terminal coding agent written in Rust, by Oxagen.
             </p>
-            <a
-              href={SITE.repo}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-4 inline-flex h-9 w-9 items-center justify-center rounded-md border border-line-2 text-sub transition-colors hover:text-ink"
-              aria-label="GitHub"
-            >
-              <IconGitHub className="h-4.5 w-4.5" />
-            </a>
           </div>
 
           {COLS.map((col) => (
-            <div key={col.title}>
-              <h4 className="mono text-[11px] uppercase tracking-widest text-chevron">
+            <nav key={col.title} aria-label={col.title}>
+              <h2 className="mono text-2xs uppercase tracking-[0.12em] text-text-tertiary">
                 {col.title}
-              </h4>
-              <ul className="mt-3 space-y-2">
+              </h2>
+              <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.label}>
                     <a
                       href={l.href}
                       target={l.href.startsWith("http") ? "_blank" : undefined}
                       rel={l.href.startsWith("http") ? "noreferrer" : undefined}
-                      className="text-sm text-sub transition-colors hover:text-ink"
+                      className="text-sm text-text-secondary hover:text-text"
                     >
                       {l.label}
                     </a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 sm:flex-row">
-          <p className="mono text-xs text-chevron">
-            © {new Date().getFullYear()} Oxagen · Stella v{SITE.version} · {SITE.license}
-          </p>
-          <p className="mono text-xs text-chevron">
-            <span className="text-cursor">›</span>stella<span className="text-cursor">▮</span>{" "}
-            — built by an agent that proves its work
-          </p>
-        </div>
+        <p className="mono mt-16 border-t border-hairline pt-6 text-xs text-text-tertiary">
+          © {new Date().getFullYear()} Oxagen, Inc. · Stella v{SITE.version} · {SITE.license}
+        </p>
       </div>
     </footer>
   );
