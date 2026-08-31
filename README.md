@@ -51,9 +51,10 @@ src/
     sitemap.ts robots.ts    # generated from SITE.url
   components/
     Nav.tsx                 # server component; no scroll listener
-    Hero.tsx                # what it is, and how to install it
-    MechanismsSection.tsx   # inspect · witness protocol · CGP
+    Hero.tsx                # what it is, where it ends, how to install it
+    MechanismsSection.tsx   # inspect · verification plugins · CGP
     Recordings.tsx          # recorded sessions, click to play
+    GovernanceSection.tsx   # the engine/control-plane seam, and its two tiers
     SwitchingSection.tsx    # what carries over, and what is missing
     InstallSection.tsx      # install, licence, telemetry
     Footer.tsx StellaMark.tsx InstallBlock.tsx CopyButton.tsx icons.tsx
@@ -82,13 +83,32 @@ To add one: record it, drop `<slug>.mp4` in `public/videos/`, and add a row to `
 pressing play. Nothing loads until they do — the player carries `preload="none"` and gets no `src`
 until first click.
 
+## Positioning
+
+The page is written around Oxagen **ADR-040** (`docs/adr/ADR-040-governance-plane-refocus.md` in
+macanderson/oxagen) and the `docs/VISION.md` amendment it carries: Oxagen is a governance plane for
+*any* agent, and Stella is an engine that plane governs — not a platform of its own. On this site
+that means two things, and neither is decoration:
+
+- **The seam is stated, not implied.** Stella is an execution engine; identity, policy, approval,
+  lineage, audit and retention live above it. `GovernanceSection.tsx` is that seam, and the hero
+  names it in its second paragraph.
+- **Enforcement and attestation are never summed.** ADR-040 § Decision 4 requires that a control
+  which can only observe is never sold as one that can prevent. So the governance section keeps the
+  two tiers in separate columns with a separate verdict line each, and `MechanismsSection.tsx`
+  names who vouches for every record — the engine, or something the engine is only relaying. If a
+  control cannot deny, this site says it cannot deny.
+
+The product-side statement of the same split is `docs/spec/enterprise-authority-telemetry.md`
+§ Purpose in macanderson/stella.
+
 ## Accuracy
 
-Every product claim is traceable to macanderson/stella at v0.6.8, and the trace is recorded in a
-comment above the copy it supports (`src/lib/site.ts`, `MechanismsSection.tsx`,
-`SwitchingSection.tsx`). Verify against code, not against the README.
+Every product claim is traceable to macanderson/stella at **v0.9.299**, and the trace is recorded in
+a comment above the copy it supports (`src/lib/site.ts`, `MechanismsSection.tsx`,
+`GovernanceSection.tsx`, `SwitchingSection.tsx`). Verify against code, not against the README.
 
-Three rules for anyone editing copy:
+Four rules for anyone editing copy:
 
 - **No benchmark numbers, pass rates, leaderboard placements, or head-to-head comparisons.** The
   Terminal-Bench 2.1 run has not been executed: `bench/READINESS.md` freezes a system under test at
@@ -100,6 +120,10 @@ Three rules for anyone editing copy:
 - **State the gaps.** The switching section names what is not implemented (no IDE extension, no
   vim mode, no checkpoint/rewind, no `/compact` or `--continue`, not on crates.io, no Windows
   support). That honesty is the point of the section; do not trim it to balance the columns.
+- **Name the author of every piece of evidence.** Verification-plugin results are the plugin's own
+  report — Stella evaluates the declared rule against them and does not re-run the oracle — while
+  the tamper finding is the host's and has no field on the wire a plugin speaks. Copy that blurs
+  those two fails ADR-040 § Decision 4 even when every individual word is true.
 
 ## License
 

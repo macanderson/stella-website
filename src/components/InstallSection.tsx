@@ -92,14 +92,19 @@ export function InstallSection() {
               names, arguments and results, reasoning, errors, git state, memories and rules are
               excluded from that export.
             </p>
-            <a
-              href={`${SITE.docs}/telemetry`}
-              target="_blank"
-              rel="noreferrer"
-              className="link mt-5 inline-block text-sm"
-            >
-              Telemetry documentation
-            </a>
+            <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+              <a
+                href={`${SITE.docs}/telemetry`}
+                target="_blank"
+                rel="noreferrer"
+                className="link text-sm"
+              >
+                Telemetry documentation
+              </a>
+              <a href="#governance" className="link text-sm">
+                What an enrolled export can and cannot show
+              </a>
+            </div>
           </div>
         </div>
       </div>

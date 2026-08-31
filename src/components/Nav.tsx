@@ -5,6 +5,7 @@ import { IconGitHub } from "./icons";
 const LINKS = [
   { href: "#receipts", label: "How it works" },
   { href: "#recordings", label: "Recordings" },
+  { href: "#governance", label: "Governance" },
   { href: "#install", label: "Install" },
 ];
 

@@ -7,6 +7,13 @@
 //
 // `moneyLine` is a line that appears in the recording itself, so the claim is
 // checkable by pressing play. Do not add a line here that is not on screen.
+//
+// A recording is a historical capture, not a spec. When a mechanism moves, the
+// prose on the page moves first and the clip has to be re-recorded or dropped —
+// a clip that demonstrates a code path the current binary no longer takes is a
+// claim, and it fails the same accuracy rule as a sentence would. The blurbs
+// below are therefore written to what is on screen, and describe no host
+// behaviour the recording does not itself show.
 
 export type Clip = {
   slug: string;
@@ -29,7 +36,7 @@ export const CLIPS: Clip[] = [
     slug: "witness-protocol",
     title: "The witness protocol, end to end",
     blurb:
-      "A pricing bug that ignores item quantity. An independent witness writes the failing test, it fails on the old code, and the fix flips it green.",
+      "A pricing bug that ignores item quantity. The verification oracle writes the failing test, it fails on the old code, and the fix flips it green.",
     command:
       'stella run "total_cents ignores item quantity — it must multiply price by qty. Fix the bug." --keep-witness',
     realTime: "84s",

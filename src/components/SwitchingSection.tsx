@@ -2,19 +2,24 @@ import { SITE } from "@/lib/site";
 
 /**
  * What carries over, and what is missing. Both halves verified against
- * macanderson/stella at v0.6.8; the second half is the more useful one and
+ * macanderson/stella at v0.9.299; the second half is the more useful one and
  * is not softened.
  *
- *   symlink adoption   stella-cli/src/extensions.rs:15-16, :344
- *                      stella-cli/src/commands_cmd.rs:9
- *   ingest             stella-cli/src/main.rs:630, ingest_cmd.rs:5
- *   MCP transports     stella-mcp/src/registry.rs:375 (streamable-http, sse)
+ *   symlink adoption   stella-cli/src/extensions.rs:2, :92
+ *   ingest             stella-cli/src/ingest_cmd.rs:5-6 · README.md:325
+ *   MCP transports     stella-mcp/src/registry.rs:215, :573 (streamable-http, sse)
  *   MCP OAuth 2.1      stella-mcp/src/oauth.rs:1
- *   hooks              README.md:58-59
- *   providers          stella-cli/src/config.rs:152 (nine entries)
- *   budget             README.md:53-54
- *   slash surface      README.md:361-372 (no /compact)
- *   crates.io          README.md "Not on crates.io"
+ *   hooks              README.md:61-62
+ *   providers          stella-cli/src/config/providers.rs:93 (nine hosted
+ *                      rows), :278 (the `local` row)
+ *   spend limit        README.md:56-57 — the flag is `--spend-limit`; it was
+ *                      `--budget` at v0.6.8 and this page said so until now
+ *   surfaces           README.md:332 (`observe`, loopback-only dashboard) and
+ *                      crates/stella-serve/README.md:1-17 (headless, for a
+ *                      host) — so "the terminal is the only surface" is no
+ *                      longer true and is not claimed here
+ *   slash surface      README.md:362-372 (still no /compact, no --continue)
+ *   crates.io          README.md:108 (`publish = false`)
  */
 const CARRIES_OVER: Array<[string, string]> = [
   [".claude/commands/", "symlinked into .stella/ by stella init, not copied or rewritten"],
@@ -26,7 +31,7 @@ const CARRIES_OVER: Array<[string, string]> = [
 ];
 
 const MISSING: Array<[string, string]> = [
-  ["No IDE extension", "the terminal is the only surface"],
+  ["No IDE extension", "no editor integration — stella observe's loopback-only dashboard is not one"],
   ["No checkpoint or rewind", "sessions are durable and resumable, but not rewindable"],
   ["No vim mode", "keybindings are not configurable"],
   ["No /compact, no --continue", "compaction is automatic and not a command you invoke"],
@@ -82,8 +87,8 @@ export function SwitchingSection() {
           One static Rust binary, no runtime to install. Bring your own key across{" "}
           {SITE.providerCount} hosted providers, or point{" "}
           <code className="mono text-text">--base-url</code> at any OpenAI-compatible server and use
-          no hosted key at all. <code className="mono text-text">--budget</code> caps a run in US
-          dollars and aborts between steps, never mid-tool.
+          no hosted key at all. <code className="mono text-text">--spend-limit</code> caps a run in
+          US dollars and aborts between steps, never mid-tool.
         </p>
       </div>
     </section>
