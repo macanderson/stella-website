@@ -2,6 +2,7 @@ import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { MechanismsSection } from "@/components/MechanismsSection";
 import { Recordings } from "@/components/Recordings";
+import { GovernanceSection } from "@/components/GovernanceSection";
 import { SwitchingSection } from "@/components/SwitchingSection";
 import { InstallSection } from "@/components/InstallSection";
 import { Footer } from "@/components/Footer";
@@ -20,6 +21,7 @@ export default function Home() {
         <Hero />
         <MechanismsSection />
         <Recordings />
+        <GovernanceSection />
         <SwitchingSection />
         <InstallSection />
       </main>

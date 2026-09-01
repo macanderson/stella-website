@@ -7,6 +7,7 @@ const COLS = [
     links: [
       { label: "How it works", href: "#receipts" },
       { label: "Recordings", href: "#recordings" },
+      { label: "Governance", href: "#governance" },
       { label: "Switching", href: "#switching" },
       { label: "Install", href: "#install" },
     ],
@@ -42,7 +43,8 @@ export function Footer() {
               <span className="mono text-sm font-semibold">stella</span>
             </div>
             <p className="mt-4 max-w-xs text-sm text-text-secondary">
-              A terminal coding agent written in Rust, by Oxagen.
+              A terminal coding agent written in Rust, by Oxagen. An execution engine;
+              governance is a plane above it.
             </p>
           </div>
 

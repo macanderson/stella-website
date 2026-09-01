@@ -16,6 +16,8 @@ export const metadata: Metadata = {
     "terminal coding agent",
     "Rust",
     "deterministic verification",
+    "agent governance",
+    "audit evidence",
     "Context Graph Protocol",
     "BYOK",
     "AGPL-3.0-only",
